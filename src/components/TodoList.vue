@@ -15,13 +15,13 @@
         &times;
       </div>
     </div>
-    <div class="extra-container">
 
-      <label for="">
-        <input class="checkAll" type="checkbox"> check All
+    <div class="extra-container">
+      <label>
+        <input class="checkAll" type="checkbox" :checked="!anyRemaining" @change="checkAllTodos">
+        Check All
       </label>
       <div>{{ remaining }} items left</div>
-
     </div>
   </div>
 
@@ -53,6 +53,9 @@
     computed: {
       remaining() {
         return this.todos.filter(todo => !todo.completed).length
+      },
+      anyRemaining() {
+        return this.remaining != 0
       }
     },
     directives: {
@@ -93,6 +96,11 @@
 
       removeTodo(index) {
         this.todos.splice(index, 1)
+      },
+
+      checkAllTodos() {
+        this.todos.forEach((todo) => todo.completed =
+          event.target.checked)
       }
 
     }

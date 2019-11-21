@@ -22,7 +22,7 @@ export default {
   box-sizing: border-box;
 }
 .container {
-  width: 600px;
+  width: 80%;
   margin: 0 auto;
 }
 .logo {
