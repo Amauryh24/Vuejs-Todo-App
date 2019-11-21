@@ -5,7 +5,9 @@
 
     <div v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
       <div class="todo-item-left">
-        <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label">{{ todo.title }}</div>
+        <input class="completed-item" type="checkbox" v-model="todo.completed">
+        <div v-if="!todo.editing" @click="editTodo(todo)" class="todo-item-label"
+          :class="{ completed : todo.completed }">{{ todo.title }}</div>
         <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)"
           @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" v-focus>
       </div>
@@ -65,6 +67,9 @@
         todo.editing = true
       },
       doneEdit(todo) {
+        if (todo.title.trim().length == '') {
+          todo.title = this.beforeEditCache
+        }
         todo.editing = false
       },
       cancelEdit(todo) {
@@ -124,12 +129,14 @@
   .remove-item {
     cursor: pointer;
     margin-left: 14px;
+
   }
 
   .remove-item:hover {
     color: black;
-    transform: scale(2);
+    transform: scale(1.5);
     transition-duration: 0.5s;
+
   }
 
   .todo-item-left {
@@ -164,6 +171,18 @@
 
   .todo-item-edit:hover {
     outline: none;
+  }
+
+  .completed {
+    text-decoration: line-through;
+    background-color: rgba(77, 184, 131, 0.582);
+    top: 50px;
+    left: 50px;
+  }
+
+  .completed-item {
+    transform: scale(1.5);
+    cursor: pointer;
   }
 
 </style>
