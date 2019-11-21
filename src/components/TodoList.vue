@@ -5,8 +5,9 @@
 
     <div v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
       <div class="todo-item-left">
-        <div v-if="!todo.editing" @dbclick="editTodo(todo)" class="todo-item-label">{{ todo.title }}</div>
-        <input v-else class="todo-item-edit" type="text" v-model="todo.title">
+        <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label">{{ todo.title }}</div>
+        <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)"
+          @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" v-focus>
       </div>
       <div class="remove-item" @click="removeTodo(index)">
         &times;
@@ -22,6 +23,7 @@
       return {
         newTodo: "",
         idForTodo: 3,
+        beforeEditCache: '',
         todos: [{
             id: 1,
             title: "Finish Vue Screencast",
@@ -36,6 +38,13 @@
           }
         ]
       };
+    },
+    directives: {
+      focus: {
+        inserted: function (el) {
+          el.focus()
+        }
+      }
     },
     methods: {
       addTodo() {
@@ -52,7 +61,15 @@
           this.idForTodo++
       },
       editTodo(todo) {
+        this.beforeEditCache = todo.title
         todo.editing = true
+      },
+      doneEdit(todo) {
+        todo.editing = false
+      },
+      cancelEdit(todo) {
+        todo.title = this.beforeEditCache
+        todo.editing = false
       },
 
       removeTodo(index) {
@@ -76,7 +93,10 @@
     background: linear-gradient(157deg, rgba(77, 184, 128, 1) 0%, rgba(69, 145, 116, 1) 52%, rgba(53, 73, 94, 1) 100%);
     background-repeat: no-repeat;
     background-size: cover;
+
   }
+
+
 
   .todo-input {
     width: 100%;
@@ -121,6 +141,11 @@
     padding: 10px;
     border: 1px solid white;
     margin-left: 12px;
+    border-radius: 25px 25px 25px 25px;
+    border: none;
+    box-shadow: 0 0 0 2px #35495e,
+      0 0 0 4px #4DB883,
+      2px 2px 19px rgba(0, 0, 0, 0.24);
   }
 
   .todo-item-edit {
@@ -129,7 +154,12 @@
     margin-left: 12px;
     width: 100%;
     Padding: 10px;
-    border: 1px solid #ccc;
+
+    border-radius: 25px 25px 25px 25px;
+    border: none;
+    box-shadow: 0 0 0 2px #35495e,
+      0 0 0 4px #4DB883,
+      2px 2px 19px rgba(0, 0, 0, 0.24);
   }
 
   .todo-item-edit:hover {
