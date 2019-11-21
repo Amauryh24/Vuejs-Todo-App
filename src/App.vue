@@ -18,13 +18,17 @@ export default {
 </script>
 
 <style>
-* {
-  box-sizing: border-box;
+body {
+  background: linear-gradient(
+    157deg,
+    rgba(77, 184, 128, 1) 0%,
+    rgba(69, 145, 116, 1) 52%,
+    rgba(53, 73, 94, 1) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-.container {
-  width: 80%;
-  margin: 0 auto;
-}
+
 .logo {
   display: block;
   margin: 20px auto;
@@ -32,12 +36,14 @@ export default {
 }
 
 #app {
+  width: 80%;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
   font-size: 24px;
+  padding: 0;
+  margin: 0 auto;
 }
 </style>

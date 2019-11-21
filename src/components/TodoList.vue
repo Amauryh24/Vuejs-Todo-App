@@ -3,7 +3,7 @@
     <input type="text" class="todo-input" placeholder="what needs to be done" v-model="newTodo"
       @keyup.enter="addTodo" />
 
-    <div v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
+    <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
       <div class="todo-item-left">
         <input class="completed-item" type="checkbox" v-model="todo.completed">
         <div v-if="!todo.editing" @click="editTodo(todo)" class="todo-item-label"
@@ -18,10 +18,20 @@
 
     <div class="extra-container">
       <label>
-        <input class="checkAll" type="checkbox" :checked="!anyRemaining" @change="checkAllTodos">
+        <input class="completed-item" type="checkbox" :checked="!anyRemaining" @change="checkAllTodos">
         Check All
       </label>
       <div>{{ remaining }} items left</div>
+    </div>
+
+    <div class="extra-container">
+      <div>
+        <button :class="{ active: filter == 'all' }" @click="filter = 'all'">All</button> </button>
+        <button :class="{ active: filter == 'active' }" @click="filter = 'active'">Active</button> </button>
+        <button :class="{ active: filter == 'completed' }" @click="filter = 'completed'">Completed</button> </button>
+      </div>
+      <div>
+        <button v-if="showClearCompletedButton" @click="clearCompleted"> Clear completed</button></div>
     </div>
   </div>
 
@@ -35,6 +45,7 @@
         newTodo: "",
         idForTodo: 3,
         beforeEditCache: '',
+        filter: 'all',
         todos: [{
             id: 1,
             title: "Finish Vue Screencast",
@@ -56,6 +67,19 @@
       },
       anyRemaining() {
         return this.remaining != 0
+      },
+      todosFiltered() {
+        if (this.filter == 'all') {
+          return this.todos
+        } else if (this.filter == 'active') {
+          return this.todos.filter(todo => !todo.completed)
+        } else if (this.filter == 'completed') {
+          return this.todos.filter(todo => todo.completed)
+        }
+        return this.todos
+      },
+      showClearCompletedButton() {
+        return this.todos.filter(todo => todo.completed).length > 0
       }
     },
     directives: {
@@ -116,10 +140,7 @@
   html {
     width: 100%;
     height: 100%;
-    background: rgb(77, 184, 128);
-    background: linear-gradient(157deg, rgba(77, 184, 128, 1) 0%, rgba(69, 145, 116, 1) 52%, rgba(53, 73, 94, 1) 100%);
-    background-repeat: no-repeat;
-    background-size: cover;
+
 
   }
 
@@ -191,7 +212,7 @@
       2px 2px 19px rgba(0, 0, 0, 0.24);
   }
 
-  .todo-item-edit:hover {
+  .todo-item-edit:focus {
     outline: none;
   }
 
@@ -215,11 +236,27 @@
     border-top: 1px solid lightgray;
     padding-top: 14px;
     margin-top: 14px;
-
   }
 
-  .checkAll {
-    transform: scale(1.5);
+  button {
+    border-radius: 25px;
+    cursor: pointer;
+    border: none;
+    box-shadow:
+      0 0 0 1px #4DB883,
+      2px 2px 10px rgba(0, 0, 0, 0.24);
+  }
+
+  button:hover {
+    background-color: #4DB883;
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  button.active {
+    background-color: #4DB883;
   }
 
 </style>
