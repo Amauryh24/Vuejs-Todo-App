@@ -3,11 +3,12 @@
     <input type="text" class="todo-input" placeholder="what needs to be done" v-model="newTodo"
       @keyup.enter="addTodo" />
 
-    <div v-for="todo in todos" :key="todo.id" class="todo-item">
-      <div>
-        {{ todo.title }}
+    <div v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
+      <div class="todo-item-left">
+        <div v-if="!todo.editing" @dbclick="editTodo(todo)" class="todo-item-label">{{ todo.title }}</div>
+        <input v-else class="todo-item-edit" type="text" v-model="todo.title">
       </div>
-      <div class="remove-item">
+      <div class="remove-item" @click="removeTodo(index)">
         &times;
       </div>
     </div>
@@ -24,12 +25,14 @@
         todos: [{
             id: 1,
             title: "Finish Vue Screencast",
-            completed: false
+            completed: false,
+            editing: false,
           },
           {
             id: 2,
             title: "Take over world",
-            completed: false
+            completed: false,
+            editing: false,
           }
         ]
       };
@@ -47,7 +50,15 @@
         })
         this.newTodo = '',
           this.idForTodo++
+      },
+      editTodo(todo) {
+        todo.editing = true
+      },
+
+      removeTodo(index) {
+        this.todos.splice(index, 1)
       }
+
     }
   };
 
@@ -68,8 +79,6 @@
   }
 
   .todo-input {
-
-
     width: 100%;
     padding: 10px 20px;
     font-size: 20px;
@@ -79,10 +88,10 @@
     box-shadow: 0 0 0 2px #35495e,
       0 0 0 4px #4DB883,
       2px 2px 19px rgba(0, 0, 0, 0.24);
+  }
 
-    &:focus {
-      outline: 0;
-    }
+  .todo-input:focus {
+    outline: 0;
   }
 
   .todo-item {
@@ -101,6 +110,30 @@
     color: black;
     transform: scale(2);
     transition-duration: 0.5s;
+  }
+
+  .todo-item-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .todo-item-label {
+    padding: 10px;
+    border: 1px solid white;
+    margin-left: 12px;
+  }
+
+  .todo-item-edit {
+    font-size: 24px;
+    color: black;
+    margin-left: 12px;
+    width: 100%;
+    Padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  .todo-item-edit:hover {
+    outline: none;
   }
 
 </style>
