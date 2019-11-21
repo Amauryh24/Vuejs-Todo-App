@@ -16,12 +16,12 @@
       </div>
     </div>
     <div class="extra-container">
-      <div>
-        <label for="">
-          <input type="checkbox"> check All
-        </label>
-        <div>{{ remaining }} items left</div>
-      </div>
+
+      <label for="">
+        <input class="checkAll" type="checkbox"> check All
+      </label>
+      <div>{{ remaining }} items left</div>
+
     </div>
   </div>
 
@@ -49,6 +49,11 @@
           }
         ]
       };
+    },
+    computed: {
+      remaining() {
+        return this.todos.filter(todo => !todo.completed).length
+      }
     },
     directives: {
       focus: {
@@ -202,6 +207,11 @@
     border-top: 1px solid lightgray;
     padding-top: 14px;
     margin-top: 14px;
+
+  }
+
+  .checkAll {
+    transform: scale(1.5);
   }
 
 </style>
