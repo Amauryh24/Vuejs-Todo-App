@@ -1,7 +1,7 @@
 <template>
   <div class="todo-item">
     <div class="todo-item-left">
-      <input class="completed-item" type="checkbox" v-model="completed">
+      <input class="completed-item" type="checkbox" v-model="completed" @change="doneEdit">
       <div v-if="!editing" @click="editTodo" class="todo-item-label" :class="{ completed : completed }">
         {{ title }}</div>
       <input v-else class="todo-item-edit" type="text" v-model="title" @blur="doneEdit" @keyup.enter="doneEdit"
@@ -23,6 +23,10 @@
       },
       index: {
         type: Number,
+        required: true,
+      },
+      checkAll: {
+        type: Boolean,
         required: true,
       }
     },

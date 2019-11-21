@@ -5,7 +5,7 @@
 
     <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
       <todo-item v-for="(todo, index) in todosFiltered" :key="todo.id" :todo="todo" :index="index"
-        @removedTodo="removeTodo" @finishedEdit="finishedEdit">
+        :checkAll="!anyRemaining" @removedTodo="removeTodo" @finishedEdit="finishedEdit">
         <!-- <div class="todo-item-left">
           <input class="completed-item" type="checkbox" v-model="todo.completed">
           <div v-if="!todo.editing" @click="editTodo(todo)" class="todo-item-label"
