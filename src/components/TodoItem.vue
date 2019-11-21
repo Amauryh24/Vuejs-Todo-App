@@ -40,6 +40,22 @@
 
       }
     },
+    watch: {
+      checkAll() {
+        if (this.checkAll) {
+          this.completed = true
+        } else {
+          this.completed = this.todo.completed
+        }
+      }
+    },
+    directives: {
+      focus: {
+        inserted: function (el) {
+          el.focus()
+        }
+      }
+    },
     methods: {
       removeTodo(index) {
         this.$emit('removedTodo', index)
