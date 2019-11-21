@@ -15,7 +15,16 @@
         &times;
       </div>
     </div>
+    <div class="extra-container">
+      <div>
+        <label for="">
+          <input type="checkbox"> check All
+        </label>
+        <div>{{ remaining }} items left</div>
+      </div>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -183,6 +192,16 @@
   .completed-item {
     transform: scale(1.5);
     cursor: pointer;
+  }
+
+  .extra-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    border-top: 1px solid lightgray;
+    padding-top: 14px;
+    margin-top: 14px;
   }
 
 </style>
