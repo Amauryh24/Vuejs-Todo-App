@@ -33,6 +33,7 @@ body {
   display: block;
   margin: 20px auto;
   height: 100px;
+  opacity: 0.8;
 }
 
 #app {

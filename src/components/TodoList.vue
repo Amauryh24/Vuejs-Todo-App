@@ -3,18 +3,20 @@
     <input type="text" class="todo-input" placeholder="what needs to be done" v-model="newTodo"
       @keyup.enter="addTodo" />
 
-    <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
-      <div class="todo-item-left">
-        <input class="completed-item" type="checkbox" v-model="todo.completed">
-        <div v-if="!todo.editing" @click="editTodo(todo)" class="todo-item-label"
-          :class="{ completed : todo.completed }">{{ todo.title }}</div>
-        <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)"
-          @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" v-focus>
+    <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
+      <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
+        <div class="todo-item-left">
+          <input class="completed-item" type="checkbox" v-model="todo.completed">
+          <div v-if="!todo.editing" @click="editTodo(todo)" class="todo-item-label"
+            :class="{ completed : todo.completed }">{{ todo.title }}</div>
+          <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)"
+            @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" v-focus>
+        </div>
+        <div class="remove-item" @click="removeTodo(index)">
+          &times;
+        </div>
       </div>
-      <div class="remove-item" @click="removeTodo(index)">
-        &times;
-      </div>
-    </div>
+    </transition-group>
 
     <div class="extra-container">
       <label>
@@ -31,7 +33,10 @@
         <button :class="{ active: filter == 'completed' }" @click="filter = 'completed'">Completed</button> </button>
       </div>
       <div>
-        <button v-if="showClearCompletedButton" @click="clearCompleted"> Clear completed</button></div>
+        <transition name="fade">
+          <button v-if="showClearCompletedButton" @click="clearCompleted"> Clear completed</button>
+        </transition>
+      </div>
     </div>
   </div>
 
@@ -125,6 +130,9 @@
       checkAllTodos() {
         this.todos.forEach((todo) => todo.completed =
           event.target.checked)
+      },
+      clearCompleted() {
+        this.todos = this.todos.filter(todo => !todo.completed)
       }
 
     }
@@ -137,6 +145,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css');
+
   html {
     width: 100%;
     height: 100%;
@@ -147,8 +157,8 @@
 
 
   .todo-input {
-    width: 100%;
-    padding: 10px 20px;
+    width: 96%;
+    padding: 1% 2%;
     font-size: 20px;
     margin-bottom: 20px;
     border-radius: 25px 25px 25px 25px;
@@ -167,6 +177,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    animation-duration: 0.4s;
   }
 
   .remove-item {
@@ -257,6 +268,16 @@
 
   button.active {
     background-color: #4DB883;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .5s;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
   }
 
 </style>
