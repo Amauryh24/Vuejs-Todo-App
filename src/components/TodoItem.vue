@@ -21,10 +21,7 @@
         type: Object,
         required: true,
       },
-      index: {
-        type: Number,
-        required: true,
-      },
+
       checkAll: {
         type: Boolean,
         required: true,
@@ -39,6 +36,12 @@
         'beforeEditCache': '',
 
       }
+    },
+    created() {
+      eventBus.$on('pluralize', this.handlePluralize)
+    },
+    beforeDestroy() {
+      eventBus.$off('pluralize', this.handlePluralize)
     },
     watch: {
       checkAll() {
@@ -58,7 +61,7 @@
     },
     methods: {
       removeTodo(index) {
-        eventBus.$emit('removedTodo', index)
+        eventBus.$emit('removedTodo', id)
       },
       editTodo() {
         this.beforeEditCache = this.title
@@ -70,13 +73,12 @@
         }
         this.editing = false
         eventBus.$emit('finishedEdit', {
-          'index': this.index,
-          'todo': {
-            'id': this.id,
-            'title': this.title,
-            'completed': this.completed,
-            'editing': this.editing,
-          }
+
+          'id': this.id,
+          'title': this.title,
+          'completed': this.completed,
+          'editing': this.editing,
+
         })
 
       },
