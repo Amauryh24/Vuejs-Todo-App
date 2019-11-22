@@ -9,7 +9,7 @@
 <script>
   export default {
     name: 'todo-filtered',
-    computer: {
+    computed: {
       filter() {
         return this.$store.state.filter
       }
