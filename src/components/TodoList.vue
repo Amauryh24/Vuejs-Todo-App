@@ -59,20 +59,7 @@
         ]
       }
     },
-    created() {
-      // eventBus.$on('removedTodo', (id) => this.removeTodo(id))
-      eventBus.$on('finishedEdit', (data) => this.finishedEdit(data))
-      eventBus.$on('checkAllChanged', (checked) => this.checkAllTodos(checked))
-      eventBus.$on('filterChanged', (filter) => this.$store.state.filter = filter)
-      eventBus.$on('clearCompletedTodos', () => this.clearCompleted())
-    },
-    beforeDestroy() {
-      // eventBus.$off('removedTodo')
-      eventBus.$off('finishedEdit')
-      eventBus.$off('checkAllChanged')
-      eventBus.$off('filterChanged')
-      eventBus.$off('clearCompletedTodos')
-    },
+
     computed: {
       remaining() {
         return this.$store.getters.remaining
@@ -92,11 +79,13 @@
         if (this.newTodo.trim().length == 0) {
           return
         }
-        this.$store.state.todos.push({
+
+        this.$store.commit('addTodo', {
           id: this.idForTodo,
           title: this.newTodo,
-          completed: false,
+
         })
+
         this.newTodo = '';
         this.idForTodo++;
       },
