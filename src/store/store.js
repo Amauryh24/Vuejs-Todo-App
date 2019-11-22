@@ -64,7 +64,7 @@ export const store = new Vuex.Store({
       state.todos.splice(index, 1);
     },
     checkAll(state, checked) {
-      state.todos.forEach((todo) => todo.completed = event.target.checked)
+      state.todos.forEach((todo) => todo.completed = checked)
     },
     updateFilter(state, filter) {
       state.filter = filter
@@ -72,6 +72,49 @@ export const store = new Vuex.Store({
 
     clearCompleted(state) {
       state.todos = state.todos.filter(todo => !todo.completed)
+
+    }
+  },
+  actions: {
+    addTodo(context, todo) {
+      setTimeout(() => {
+        context.commit('addTodo', todo)
+      }, 200)
+
+    },
+
+    updateTodo(context, todo) {
+      setTimeout(() => {
+        context.commit('updateTodo', todo)
+      }, 200)
+    },
+
+    deleteTodo(context, id) {
+      setTimeout(() => {
+        context.commit('deleteTodo', id)
+      }, 200)
+    },
+
+    checkAll(context, checked) {
+      setTimeout(() => {
+        context.commit('checkAll', checked)
+      }, 200)
+
+    },
+
+    updateFilter(context, filter) {
+      setTimeout(() => {
+        context.commit('updateFilter', filter)
+      }, 200)
+
+
+    },
+
+    clearCompleted(context) {
+      setTimeout(() => {
+        context.commit('clearCompleted')
+      }, 200)
+
 
     }
   }
