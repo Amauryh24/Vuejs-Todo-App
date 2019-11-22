@@ -42,7 +42,6 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
-
     addTodo(state, todo) {
       state.todos.push({
         id: todo.id,
@@ -50,6 +49,10 @@ export const store = new Vuex.Store({
         completed: false,
         editing: false,
       })
+    },
+    clearCompleted(state) {
+      state.todos = state.todos.filter(todo => !todo.completed)
+
     }
   }
 })
