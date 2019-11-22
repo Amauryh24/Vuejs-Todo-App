@@ -60,8 +60,9 @@
       }
     },
     methods: {
-      removeTodo(index) {
-        eventBus.$emit('removedTodo', id)
+      removeTodo(id) {
+        const index = this.$store.state.todos.findIndex(item => item.id == id);
+        this.$store.state.todos.splice(index, 1);
       },
       editTodo() {
         this.beforeEditCache = this.title
@@ -72,14 +73,21 @@
           this.title = this.beforeEditCache
         }
         this.editing = false
-        eventBus.$emit('finishedEdit', {
-
+        const index = this.$store.state.todos.findIndex((item) => item.id == this.id)
+        this.$store.state.todos.splice(index, 1, {
           'id': this.id,
           'title': this.title,
           'completed': this.completed,
           'editing': this.editing,
-
         })
+        // eventBus.$emit('finishedEdit', {
+
+        //   'id': this.id,
+        //   'title': this.title,
+        //   'completed': this.completed,
+        //   'editing': this.editing,
+
+        // })
 
       },
       cancelEdit() {

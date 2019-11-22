@@ -60,14 +60,14 @@
       }
     },
     created() {
-      eventBus.$on('removedTodo', (id) => this.removeTodo(id))
+      // eventBus.$on('removedTodo', (id) => this.removeTodo(id))
       eventBus.$on('finishedEdit', (data) => this.finishedEdit(data))
       eventBus.$on('checkAllChanged', (checked) => this.checkAllTodos(checked))
       eventBus.$on('filterChanged', (filter) => this.$store.state.filter = filter)
       eventBus.$on('clearCompletedTodos', () => this.clearCompleted())
     },
     beforeDestroy() {
-      eventBus.$off('removedTodo')
+      // eventBus.$off('removedTodo')
       eventBus.$off('finishedEdit')
       eventBus.$off('checkAllChanged')
       eventBus.$off('filterChanged')
@@ -97,13 +97,13 @@
           title: this.newTodo,
           completed: false,
         })
-        this.newTodo = ''
-        this.idForTodo++
+        this.newTodo = '';
+        this.idForTodo++;
       },
-      removeTodo(id) {
-        const index = this.$store.state.todos.findIndex((item) => item.id == id)
-        this.$store.state.todos.splice(index, 1)
-      },
+      // removeTodo(id) {
+      //   const index = this.$store.state.todos.findIndex(item => item.id == id)
+      //   this.$store.state.todos.splice(index, 1)
+      // },
       checkAllTodos() {
         this.$store.state.todos.forEach((todo) => todo.completed = event.target.checked)
       },
